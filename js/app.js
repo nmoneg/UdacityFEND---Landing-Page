@@ -23,7 +23,7 @@
  * 
 */
 let navList = document.querySelector("#navbar__list"),
-    sections = document.getElementsByTagName("section");
+    sections = document.querySelectorAll("section");
 
 /**
  * End Global Variables
@@ -31,7 +31,8 @@ let navList = document.querySelector("#navbar__list"),
  * 
 */
 
-
+// Convert the node list 'sections' to an array:
+// let sectArray = Array.from(sections);
 
 /**
  * End Helper Functions
@@ -40,13 +41,19 @@ let navList = document.querySelector("#navbar__list"),
 */
 
 // build the nav
-function navBuild(...secList) {
-    for (let section of secList) {
+// For each section, create a link in the navbar with the text from the 'data-nav' attribute
+function navBuild(secList) {
+    secList.forEach(function(section) {
         let listItem = document.createElement("li"),
-            listText = section.getAttribute("data-nav");
-        listItem.appendChild(listText)
+            itemAnchor = document.createElement("a"),
+            itemID = section.id;
+            listText = document.querySelector(`#${itemID}`).dataset.nav;
+        itemAnchor.appendChild(document.createTextNode(listText));
+        itemAnchor.setAttribute("href", `#${itemID}`);
+        listItem.appendChild(itemAnchor);
         navList.appendChild(listItem);
-    }
+    });
+    
 }
 
 // Add class 'active' to section when near top of viewport
